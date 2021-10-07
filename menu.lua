@@ -14,12 +14,12 @@ function menu:draw()
     -- love.graphics.draw(self.background, 0, 0)
     love.graphics.printf('Press esc or p to continue', 0, 100, 400, 'center')
     love.graphics.setColor(1, 1, 1)
-    love.graphics.rectangle('fill', snake.x * 10, snake.y * 10, 10, 10)
+    love.graphics.rectangle('fill', snake.gridx * 10, snake.gridy * 10, 10, 10)
     for isegment, segment in ipairs(snake.tail) do
-        love.graphics.rectangle('fill', segment.x * 10, segment.y * 10, 10, 10)
+        love.graphics.rectangle('fill', segment.gridx * 10, segment.gridy * 10, 10, 10)
     end
     love.graphics.setColor(1, 0, 0)
-    love.graphics.rectangle('fill', egg.x * 10, egg.y * 10, 10, 10)
+    love.graphics.rectangle('fill', egg.gridx * 10, egg.gridy * 10, 10, 10)
 end
 
 function menu:keypressed(key)

@@ -6,19 +6,19 @@ function game:init()
         height = gh / 10
     }
     snake = {
-        x = 10,
-        y = 10,
+        gridx = 10,
+        gridy = 10,
         alive = true,
         currdir = 'down',
         speed = 0.1,
-        tail = {[1] = {x = 10, y = 9},
-                [2] = {x = 10, y = 8},
-                [3] = {x = 10, y = 7}}
+        tail = {[1] = {gridx = 10, gridy = 9},
+                [2] = {gridx = 10, gridy = 8},
+                [3] = {gridx = 10, gridy = 7}}
     }
     dirbuffer = {[1] = '', [2] = ''}
     egg = {
-        x = love.math.random(0, gw / 10),
-        y = love.math.random(0, gh / 10)
+        gridx = love.math.random(0, gw / 10),
+        gridy = love.math.random(0, gh / 10)
     }
     time = love.timer.getTime()
 end
@@ -41,10 +41,10 @@ function game:update(dt)
             end
 
             -- Hit wall, die
-            if snake.x > grid.width - 1  then snake.alive = false end
-            if snake.x < 0               then snake.alive = false end
-            if snake.y > grid.height - 1 then snake.alive = false end
-            if snake.y < 0               then snake.alive = false end
+            if snake.gridx > grid.width - 1  then snake.alive = false end
+            if snake.gridx < 0               then snake.alive = false end
+            if snake.gridy > grid.height - 1 then snake.alive = false end
+            if snake.gridy < 0               then snake.alive = false end
             -- Hit self, die
             for _, seg in ipairs(snake.tail) do
                 if is_same_location(snake, seg) then snake.alive = false end
@@ -53,17 +53,17 @@ function game:update(dt)
             -- Egg consumed
             if is_same_location(snake, egg) then
                 -- Update egg location -- just don't generate it on an occupied square
-                egg.x = love.math.random(1, grid.width - 1)
-                egg.y = love.math.random(1, grid.height - 1)
+                egg.gridx = love.math.random(1, grid.width - 1)
+                egg.gridy = love.math.random(1, grid.height - 1)
                 while is_occupied(snake, egg) do
-                    egg.x = love.math.random(1, grid.width - 1)
-                    egg.y = love.math.random(1, grid.height - 1)
+                    egg.gridx = love.math.random(1, grid.width - 1)
+                    egg.gridy = love.math.random(1, grid.height - 1)
                 end
                 -- Snake moves faster now
                 snake.speed = snake.speed - 0.001
                 -- Add another tail segment
                 local lastsegment = snake.tail[#snake.tail]
-                snake.tail[#snake.tail + 1] = {x = lastsegment.x, y = lastsegment.y}
+                snake.tail[#snake.tail + 1] = {gridx = lastsegment.gridx, gridy = lastsegment.gridy}
             end
         end
     else
@@ -78,20 +78,20 @@ function game:draw()
     if ispaused then
         love.graphics.printf('Press esc or p to continue', 0, 100, 400, 'center')
         love.graphics.setColor(1, 1, 1)
-        love.graphics.rectangle('fill', snake.x * 10, snake.y * 10, 10, 10)
+        love.graphics.rectangle('fill', snake.gridx * 10, snake.gridy * 10, 10, 10)
         for isegment, segment in ipairs(snake.tail) do
-            love.graphics.rectangle('fill', segment.x * 10, segment.y * 10, 10, 10)
+            love.graphics.rectangle('fill', segment.gridx * 10, segment.gridy * 10, 10, 10)
         end
         love.graphics.setColor(1, 0, 0)
-        love.graphics.rectangle('fill', egg.x * 10, egg.y * 10, 10, 10)
+        love.graphics.rectangle('fill', egg.gridx * 10, egg.gridy * 10, 10, 10)
     else
         love.graphics.setColor(1, 1, 1)
-        love.graphics.rectangle('fill', snake.x * 10, snake.y * 10, 10, 10)
+        love.graphics.rectangle('fill', snake.gridx * 10, snake.gridy * 10, 10, 10)
         for isegment, segment in ipairs(snake.tail) do
-            love.graphics.rectangle('fill', segment.x * 10, segment.y * 10, 10, 10)
+            love.graphics.rectangle('fill', segment.gridx * 10, segment.gridy * 10, 10, 10)
         end
         love.graphics.setColor(1, 0, 0)
-        love.graphics.rectangle('fill', egg.x * 10, egg.y * 10, 10, 10)
+        love.graphics.rectangle('fill', egg.gridx * 10, egg.gridy * 10, 10, 10)
     end
 end
 
@@ -120,25 +120,25 @@ end
 function movesnake(snake, dir)
     -- Move tail segments
     for i = #snake.tail, 2, -1 do
-        snake.tail[i].x = snake.tail[i - 1].x
-        snake.tail[i].y = snake.tail[i - 1].y
+        snake.tail[i].gridx = snake.tail[i - 1].gridx
+        snake.tail[i].gridy = snake.tail[i - 1].gridy
     end
-    snake.tail[1].x, snake.tail[1].y = snake.x, snake.y
+    snake.tail[1].gridx, snake.tail[1].gridy = snake.gridx, snake.gridy
     -- Now move the head
     if snake.currdir == 'up' then
-        snake.y = snake.y - 1
+        snake.gridy = snake.gridy - 1
     elseif snake.currdir == 'down' then
-        snake.y = snake.y + 1
+        snake.gridy = snake.gridy + 1
     elseif snake.currdir == 'left' then 
-        snake.x = snake.x - 1
+        snake.gridx = snake.gridx - 1
     elseif snake.currdir == 'right' then
-        snake.x = snake.x + 1
+        snake.gridx = snake.gridx + 1
     end
 end
 
 
 function is_same_location(a, b)
-    if a.x == b.x and a.y == b.y then
+    if a.gridx == b.gridx and a.gridy == b.gridy then
         return true
     else
         return false
