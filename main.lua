@@ -6,11 +6,12 @@
 Gamestate = require "libs/gamestate"
 menu = require "menu"
 game = require "game"
-highscore = require "highscore"
+start = require "start"
+leaderboard = require "leaderboard"
 
 function love.load()
     Gamestate.registerEvents()
-    Gamestate.switch(game)
+    Gamestate.switch(start)
 end
 
 -- function love.update(dt)

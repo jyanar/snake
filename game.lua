@@ -6,11 +6,13 @@ function game:init()
         height = gh / 10
     }
     snake = {
+        x = 10,
+        y = 10,
         gridx = 10,
         gridy = 10,
         alive = true,
         currdir = 'down',
-        speed = 0.1,
+        speed = 0.08,
         tail = {[1] = {gridx = 10, gridy = 9},
                 [2] = {gridx = 10, gridy = 8},
                 [3] = {gridx = 10, gridy = 7}}
@@ -67,7 +69,7 @@ function game:update(dt)
             end
         end
     else
-        Gamestate.push(highscore)
+        Gamestate.push(leaderboard)
     end
 end
 
