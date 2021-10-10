@@ -9,13 +9,8 @@ function leaderboard:init()
         local existing_data = love.filesystem.load('scores.lua')
         existing_data() -- table `data` loaded
     end
-
     -- Sort the data table
-    for k, v in pairs(data) do
-        table.insert(sorteddata, {score = v, name = k})
-    end
-    -- sorteddata = lume.sort(sorteddata, "score")
-    sorteddata = lume.sort(sorteddata, function(a, b) return a.score > b.score end)
+    data = lume.sort(data, function(a, b) return a.score > b.score end)
 end
 
 function leaderboard:enter(previous)
@@ -42,10 +37,12 @@ function leaderboard:draw()
     local entry_h = 16
     local margin = 4
     local space_h = m5x7_24:getWidth('XXXXXXXX')
-    for i, s in ipairs(sorteddata) do
-        love.graphics.print(s.name, m5x7_24, cursor_x, cursor_y)
-        love.graphics.print(s.score, m5x7_24, cursor_x + space_h, cursor_y)
-        cursor_y = cursor_y + margin + entry_h
+    for i, s in ipairs(data) do
+        if i <= 10 then -- Print out first 10
+            love.graphics.print(s.name, m5x7_24, cursor_x, cursor_y)
+            love.graphics.print(s.score, m5x7_24, cursor_x + space_h, cursor_y)
+            cursor_y = cursor_y + margin + entry_h
+        end
     end
 
     -- for n, s in pairs(sorteddata) do

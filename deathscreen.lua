@@ -33,12 +33,6 @@ function deathscreen:update(dt)
 end
 
 function deathscreen:draw()
-    -- local titlew = m5x7_32:getWidth('leaderboard')
-    -- local titleh = m5x7_32:getHeight('leaderboard')
-
-    -- local titlex = (gw * 0.5) - (titlew * 0.5)
-    -- local titley = 20
-
     -- Textbox rectangle
     love.graphics.setColor(1, 1, 1)
     love.graphics.rectangle('fill', textbox.x - 2, textbox.y - 2,
@@ -61,7 +55,7 @@ function deathscreen:keypressed(key)
         textbox.active = false
         local existing_data = love.filesystem.load('scores.lua')
         existing_data()
-        data[textbox.text] = score
+        table.insert(data, {score = score, name = textbox.text})
         love.filesystem.write('scores.lua', table.show(data, 'data'))
         Gamestate.switch(leaderboard)
     end
