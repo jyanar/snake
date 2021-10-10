@@ -45,8 +45,8 @@ function start:draw()
     love.graphics.print('SNAKE', m5x7_64,
         (ww * 0.5) - titleW * 0.5, wh / 10)
     local button_width = ww / 2
-    -- local button_height = wh / 5.4
     local button_height = wh / 5.4
+    -- local button_height = wh / 6.2
     local margin = 4
     local cursor_y = 25
     local total_height = (button_height + margin) * #buttons

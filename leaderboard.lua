@@ -1,5 +1,7 @@
 local leaderboard = {}
 
+local sorteddata = {}
+
 function leaderboard:init()
     -- Input latest score
     if love.filesystem.getInfo('scores.lua') ~= nil then
@@ -9,21 +11,12 @@ function leaderboard:init()
     end
 
     -- Sort the data table
-
+    for k, v in pairs(data) do
+        table.insert(sorteddata, {score = v, name = k})
+    end
+    -- sorteddata = lume.sort(sorteddata, "score")
+    sorteddata = lume.sort(sorteddata, function(a, b) return a.score > b.score end)
 end
-
-
---     score = tostring(#snake.tail) .. '\n'
---     info = love.filesystem.getInfo('scores.txt')
---     if info then
---         success, msg = love.filesystem.append('scores.txt', score)
---     else
---         success, msg = love.filesystem.write('scores.txt', score)
---     end
---     print('ffffffffffffffffffff')
---     -- Read them all out
---     scores, size = love.filesystem.read('scores.txt')
--- end
 
 function leaderboard:enter(previous)
     love.mouse.setVisible(true)
@@ -49,11 +42,17 @@ function leaderboard:draw()
     local entry_h = 16
     local margin = 4
     local space_h = m5x7_24:getWidth('XXXXXXXX')
-    for n, s in pairs(data) do
-        love.graphics.print(n, m5x7_24, cursor_x, cursor_y)
-        love.graphics.print(s, m5x7_24, cursor_x + space_h, cursor_y)
+    for i, s in ipairs(sorteddata) do
+        love.graphics.print(s.name, m5x7_24, cursor_x, cursor_y)
+        love.graphics.print(s.score, m5x7_24, cursor_x + space_h, cursor_y)
         cursor_y = cursor_y + margin + entry_h
     end
+
+    -- for n, s in pairs(sorteddata) do
+    --     love.graphics.print(n, m5x7_24, cursor_x, cursor_y)
+    --     love.graphics.print(s, m5x7_24, cursor_x + space_h, cursor_y)
+    --     cursor_y = cursor_y + margin + entry_h
+    -- end
 end
 
 function leaderboard:keypressed(key)
