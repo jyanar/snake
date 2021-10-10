@@ -19,10 +19,11 @@ function game:init()
     }
     dirbuffer = {[1] = '', [2] = ''}
     egg = {
-        gridx = love.math.random(0, gw / 10),
-        gridy = love.math.random(0, gh / 10)
+        gridx = love.math.random(1, grid.width - 1),
+        gridy = love.math.random(1, grid.height - 1)
     }
     time = love.timer.getTime()
+    love.mouse.setVisible(false)
 end
 
 
@@ -69,7 +70,7 @@ function game:update(dt)
             end
         end
     else
-        Gamestate.push(leaderboard)
+        Gamestate.switch(deathscreen)
     end
 end
 
@@ -105,7 +106,7 @@ function game:keypressed(key)
         end
     elseif key == 'escape' or key == 'p' then
         -- Pause menu
-        Gamestate.push(menu)
+        Gamestate.push(pause)
     end
 end
 

@@ -1,7 +1,13 @@
 -- gw = 480
 -- gw = 270
+
+-- With background
 gw = 330
 gh = 330
+
+-- Only arena
+gw = 270
+gh = 270
 -- gw = 1080
 -- gh = 900
 sx = 1
