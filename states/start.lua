@@ -1,14 +1,16 @@
 local start = {}
 
 local buttons = {}
-local soundplayed = false
+local active_button = 0
 
 function newbutton(text, fn)
     return {
         text = text,
         fn = fn,
-        now = false,
-        last = false
+        sound_played = false,
+
+        -- now = false,
+        -- last = false
     }
 end
 
@@ -54,18 +56,22 @@ function start:draw()
     for i, button in ipairs(buttons) do
         local bx = (ww * 0.5) - (button_width * 0.5)
         local by = (wh * 0.5) - (total_height * 0.5) + cursor_y
-        local mx, my = love.mouse.getPosition()
-        local hot = mx > bx and mx < bx + button_width and
-                    my > by and my < by + button_height
+        -- local mx, my = love.mouse.getPosition()
+        -- local hot = mx > bx and mx < bx + button_width and
+        --             my > by and my < by + button_height
         local color = {0.4, 0.4, 0.5, 1.0}
-        if hot then
+        if i == active_button then
             color = {0.8, 0.8, 0.9, 1.0}
-            sound_button:play()
+            if not button.sound_played then
+                love.audio.stop()
+                sound_button:play()
+                button.sound_played = true
+            end
         end
-        button.now = love.mouse.isDown(1)
-        if button.now and not button.last and hot then
-            button.fn()
-        end
+        -- button.now = love.mouse.isDown(1)
+        -- if button.now and not button.last and hot then
+        --     button.fn()
+        -- end
         love.graphics.setColor(unpack(color))
         love.graphics.rectangle('fill', 
             bx, by,
@@ -101,8 +107,19 @@ function start:draw()
 end
 
 function start:keypressed(key)
-    if key == 'return' then
-        Gamestate.switch(state_game)
+    if key == 'return' and active_button ~= 0 then
+        buttons[active_button].fn()
+        -- Gamestate.switch(state_game)
+    end
+    -- Navigation
+    if key == 'down' and active_button ~= #buttons then
+        active_button = active_button + 1
+        if active_button - 1 ~= 0 then
+            buttons[active_button - 1].sound_played = false
+        end
+    elseif key == 'up' and active_button ~= 1 then
+        active_button = active_button - 1
+        buttons[active_button + 1].sound_played = false
     end
 end
 
