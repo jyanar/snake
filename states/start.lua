@@ -1,6 +1,7 @@
 local start = {}
 
 local buttons = {}
+local soundplayed = false
 
 function newbutton(text, fn)
     return {
@@ -15,12 +16,12 @@ function start:init()
     table.insert(buttons, newbutton(
         'start',
         function()
-            Gamestate.switch(game)
+            Gamestate.switch(state_game)
         end))
     table.insert(buttons, newbutton(
         'leaderboard',
         function()
-            Gamestate.switch(leaderboard)
+            Gamestate.switch(state_leaderboard)
         end))
     table.insert(buttons, newbutton(
         'exit',
@@ -59,6 +60,7 @@ function start:draw()
         local color = {0.4, 0.4, 0.5, 1.0}
         if hot then
             color = {0.8, 0.8, 0.9, 1.0}
+            sound_button:play()
         end
         button.now = love.mouse.isDown(1)
         if button.now and not button.last and hot then
@@ -100,7 +102,7 @@ end
 
 function start:keypressed(key)
     if key == 'return' then
-        Gamestate.switch(game)
+        Gamestate.switch(state_game)
     end
 end
 

@@ -1,29 +1,58 @@
 local game = {}
 
 function game:init()
-    grid = {
-        width = gw / 10,
-        height = gh / 10
-    }
-    snake = {
-        x = 10,
-        y = 10,
-        gridx = 10,
-        gridy = 10,
-        alive = true,
-        currdir = 'down',
-        speed = 0.08,
-        tail = {[1] = {gridx = 10, gridy = 9},
-                [2] = {gridx = 10, gridy = 8},
-                [3] = {gridx = 10, gridy = 7}}
-    }
-    dirbuffer = {[1] = '', [2] = ''}
-    egg = {
-        gridx = love.math.random(1, grid.width - 1),
-        gridy = love.math.random(1, grid.height - 1)
-    }
-    time = love.timer.getTime()
-    love.mouse.setVisible(false)
+    -- grid = {
+    --     width = gw / 10,
+    --     height = gh / 10
+    -- }
+    -- snake = {
+    --     x = 10,
+    --     y = 10,
+    --     gridx = 10,
+    --     gridy = 10,
+    --     alive = true,
+    --     currdir = 'down',
+    --     speed = 0.08,
+    --     tail = {[1] = {gridx = 10, gridy = 9},
+    --             [2] = {gridx = 10, gridy = 8},
+    --             [3] = {gridx = 10, gridy = 7}}
+    -- }
+    -- dirbuffer = {[1] = '', [2] = ''}
+    -- egg = {
+    --     gridx = love.math.random(1, grid.width - 1),
+    --     gridy = love.math.random(1, grid.height - 1)
+    -- }
+    -- time = love.timer.getTime()
+    -- love.mouse.setVisible(false)
+end
+
+
+function game:enter(previous)
+    if previous == state_start then
+        grid = {
+            width = gw / 10,
+            height = gh / 10
+        }
+        snake = {
+            x = 10,
+            y = 10,
+            gridx = 10,
+            gridy = 10,
+            alive = true,
+            currdir = 'down',
+            speed = 0.08,
+            tail = {[1] = {gridx = 10, gridy = 9},
+                    [2] = {gridx = 10, gridy = 8},
+                    [3] = {gridx = 10, gridy = 7}}
+        }
+        dirbuffer = {[1] = '', [2] = ''}
+        egg = {
+            gridx = love.math.random(1, grid.width - 1),
+            gridy = love.math.random(1, grid.height - 1)
+        }
+        time = love.timer.getTime()
+        love.mouse.setVisible(false)
+    end
 end
 
 
@@ -52,6 +81,9 @@ function game:update(dt)
             for _, seg in ipairs(snake.tail) do
                 if is_same_location(snake, seg) then snake.alive = false end
             end
+            if snake.alive == false then
+                sound_death:play()
+            end
 
             -- Egg consumed
             if is_same_location(snake, egg) then
@@ -67,10 +99,12 @@ function game:update(dt)
                 -- Add another tail segment
                 local lastsegment = snake.tail[#snake.tail]
                 snake.tail[#snake.tail + 1] = {gridx = lastsegment.gridx, gridy = lastsegment.gridy}
+                -- Play sound
+                sound_egg:play()
             end
         end
     else
-        Gamestate.switch(deathscreen)
+        Gamestate.switch(state_deathscreen)
     end
 end
 
@@ -106,7 +140,7 @@ function game:keypressed(key)
         end
     elseif key == 'escape' or key == 'p' then
         -- Pause menu
-        Gamestate.push(pause)
+        Gamestate.push(state_pause)
     end
 end
 
