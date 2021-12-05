@@ -87,23 +87,6 @@ function start:draw()
             by + textH * 0.4)
         cursor_y = cursor_y + (button_height + margin)
     end
-
-    -- -- Draw rotating snake
-    -- snake = {
-    --     gridx = 5,
-    --     gridy = 20,
-    --     alive = true,
-    --     currdir = 'down',
-    --     speed = 0.08,
-    --     tail = {[1] = {gridx = 6, gridy = 20},
-    --             [2] = {gridx = 7, gridy = 20},
-    --             [3] = {gridx = 8, gridy = 20}}
-    -- }
-    -- love.graphics.setColor(1, 1, 1)
-    -- love.graphics.rectangle('fill', snake.gridx * 10, snake.gridy * 10, 10, 10)
-    -- for isegment, segment in ipairs(snake.tail) do
-    --     love.graphics.rectangle('fill', segment.gridx * 10, segment.gridy * 10, 10, 10)
-    -- end
 end
 
 function start:keypressed(key)

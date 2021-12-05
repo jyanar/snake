@@ -83,8 +83,11 @@ function deathscreen:keypressed(key)
         love.filesystem.write('scores.lua', table.show(data, 'data'))
         Gamestate.switch(state_leaderboard)
     end
+    -- User does not want to enter current score into list.
+    -- Move back to start menu and clear buffer.
     if key == 'escape' then
-        Gamestate.switch(state_deathscreen)
+        textbox.text = ''
+        Gamestate.switch(state_start)
     end
 end
 

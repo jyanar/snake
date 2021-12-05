@@ -40,11 +40,11 @@ function leaderboard:draw()
     love.graphics.print('leaderboard', m5x7_32, titlex, titley)
 
     -- List scores
+    local space_h = m5x7_24:getWidth('XXXXXXXX')
     local cursor_y = titley + titleh + 20
-    local cursor_x = (gw * 0.5) - (titlew * 0.5)
+    local cursor_x = (gw * 0.5) - (space_h * 0.7)
     local entry_h = 16
     local margin = 4
-    local space_h = m5x7_24:getWidth('XXXXXXXX')
     for i, s in ipairs(data) do
         if i <= 7 then -- Print out first 7
             love.graphics.print(s.name, m5x7_24, cursor_x, cursor_y)

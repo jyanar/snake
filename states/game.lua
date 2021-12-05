@@ -1,29 +1,6 @@
 local game = {}
 
 function game:init()
-    -- grid = {
-    --     width = gw / 10,
-    --     height = gh / 10
-    -- }
-    -- snake = {
-    --     x = 10,
-    --     y = 10,
-    --     gridx = 10,
-    --     gridy = 10,
-    --     alive = true,
-    --     currdir = 'down',
-    --     speed = 0.08,
-    --     tail = {[1] = {gridx = 10, gridy = 9},
-    --             [2] = {gridx = 10, gridy = 8},
-    --             [3] = {gridx = 10, gridy = 7}}
-    -- }
-    -- dirbuffer = {[1] = '', [2] = ''}
-    -- egg = {
-    --     gridx = love.math.random(1, grid.width - 1),
-    --     gridy = love.math.random(1, grid.height - 1)
-    -- }
-    -- time = love.timer.getTime()
-    -- love.mouse.setVisible(false)
 end
 
 

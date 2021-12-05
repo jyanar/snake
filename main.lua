@@ -1,9 +1,4 @@
--- Snake
--- [x] High score menu
--- [ ] sort high scores
--- [ ] Check whether killed on next turn, not after the fact
--- [ ] Smooth movement, but on a grid?
--- [ ] AI to play snake?
+-- SNAKE
 
 -- Libraries
 Gamestate = require "libs/gamestate"
@@ -29,7 +24,6 @@ function love.load()
     sound_death = love.audio.newSource("assets/death.wav", "static")
     sound_button = love.audio.newSource("assets/button.wav", "static")
     sound_egg = love.audio.newSource("assets/egg.wav", "static")
-
 
     Gamestate.registerEvents()
     Gamestate.switch(state_start)
