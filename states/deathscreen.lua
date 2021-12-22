@@ -30,30 +30,30 @@ end
 
 function deathscreen:draw()
     -- Title
-    local titlew = m5x7_32:getWidth('dead')
-    local titleh = m5x7_32:getHeight('dead')
+    local titlew = Fonts.size32:getWidth('dead')
+    local titleh = Fonts.size32:getHeight('dead')
     local titlex = (gw * 0.5) - (titlew * 0.5)
     local titley = 20
     love.graphics.setColor(1, 1, 1)
-    love.graphics.print('dead', m5x7_32, titlex, titley)
+    love.graphics.print('dead', Fonts.size32, titlex, titley)
 
     -- Score
     str = 'tail length: ' .. tostring(#snake.tail)
-    local titlew = m5x7_32:getWidth(str)
-    local titleh = m5x7_32:getHeight(str)
+    local titlew = Fonts.size32:getWidth(str)
+    local titleh = Fonts.size32:getHeight(str)
     local titlex = (gw * 0.5) - (titlew * 0.5)
     local titley = 50
     love.graphics.setColor(1, 1, 1)
-    love.graphics.print(str, m5x7_32, titlex, titley)
+    love.graphics.print(str, Fonts.size32, titlex, titley)
     
     -- Name
     score_str = 'name'
-    local titlew = m5x7_32:getWidth(score_str)
-    local titleh = m5x7_32:getHeight(score_str)
+    local titlew = Fonts.size32:getWidth(score_str)
+    local titleh = Fonts.size32:getHeight(score_str)
     local titlex = (gw * 0.5) - (titlew * 0.5)
     local titley = 3 * (gh / 6)
     love.graphics.setColor(1, 1, 1)
-    love.graphics.print(score_str, m5x7_32, titlex, titley)
+    love.graphics.print(score_str, Fonts.size32, titlex, titley)
 
     -- Textbox rectangle
     love.graphics.setColor(1, 1, 1)
@@ -64,7 +64,7 @@ function deathscreen:draw()
         textbox.width, textbox.height)
     -- Text box
     love.graphics.setColor(unpack(textbox.colors.text))
-    love.graphics.printf(textbox.text, m5x7_32, textbox.x, textbox.y+4,
+    love.graphics.printf(textbox.text, Fonts.size32, textbox.x, textbox.y+4,
         textbox.width, 'center')
 end
 
@@ -81,13 +81,13 @@ function deathscreen:keypressed(key)
         end
         table.insert(data, {score = #snake.tail, name = textbox.text})
         love.filesystem.write('scores.lua', table.show(data, 'data'))
-        Gamestate.switch(state_leaderboard)
+        State.switch(States.leaderboard)
     end
     -- User does not want to enter current score into list.
     -- Move back to start menu and clear buffer.
     if key == 'escape' then
         textbox.text = ''
-        Gamestate.switch(state_start)
+        State.switch(States.start)
     end
 end
 

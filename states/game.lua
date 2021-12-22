@@ -5,7 +5,7 @@ end
 
 
 function game:enter(previous)
-    if previous == state_start then
+    if previous == States.start then
         grid = {
             width = gw / 10,
             height = gh / 10
@@ -59,7 +59,7 @@ function game:update(dt)
                 if is_same_location(snake, seg) then snake.alive = false end
             end
             if snake.alive == false then
-                sound_death:play()
+                Sounds.death:play()
             end
 
             -- Egg consumed
@@ -77,11 +77,11 @@ function game:update(dt)
                 local lastsegment = snake.tail[#snake.tail]
                 snake.tail[#snake.tail + 1] = {gridx = lastsegment.gridx, gridy = lastsegment.gridy}
                 -- Play sound
-                sound_egg:play()
+                Sounds.egg:play()
             end
         end
     else
-        Gamestate.switch(state_deathscreen)
+        State.switch(States.deathscreen)
     end
 end
 
@@ -117,7 +117,7 @@ function game:keypressed(key)
         end
     elseif key == 'escape' or key == 'p' then
         -- Pause menu
-        Gamestate.push(state_pause)
+        State.push(States.pause)
     end
 end
 
