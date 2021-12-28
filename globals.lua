@@ -1,10 +1,10 @@
 -- Libraries
-Lume    = require "libs.lume"
-Classic = require "libs.classic"
-Flux    = require "libs.flux"
-Show    = require "libs.show"
-State   = require "libs.state"
-Timer   = require "libs.timer"
+Lume   = require "libs.lume"
+Object = require "libs.classic"
+Flux   = require "libs.flux"
+Show   = require "libs.show"
+State  = require "libs.state"
+Timer  = require "libs.timer"
 
 -- Fonts
 Fonts = {
@@ -35,4 +35,9 @@ States = {
     pause       = require "states.pause",
     leaderboard = require "states.leaderboard",
     deathscreen = require "states.deathscreen",
+}
+
+-- Objects
+Obj = {
+    snake = require "obj.snake"
 }

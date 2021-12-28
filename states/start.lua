@@ -78,6 +78,7 @@ function start:draw()
     end
 end
 
+
 function start:keypressed(key)
     if key == 'return' and active_button ~= 0 then
         buttons[active_button].fn()
@@ -88,7 +89,7 @@ function start:keypressed(key)
         if active_button - 1 ~= 0 then
             buttons[active_button - 1].sound_played = false
         end
-    elseif key == 'up' and active_button ~= 1 then
+    elseif key == 'up' and active_button ~= 1 and active_button ~= 0 then
         active_button = active_button - 1
         buttons[active_button + 1].sound_played = false
     end

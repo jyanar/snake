@@ -47,7 +47,7 @@ function deathscreen:draw()
     local titlew = Fonts.size64:getWidth(str)
     local titleh = Fonts.size64:getHeight(str)
     local titlex = (gw * 0.5) - (titlew * 0.5)
-    local titley = 50
+    local titley = 80
     love.graphics.setColor(1, 1, 1)
     love.graphics.print(str, Fonts.size64, titlex, titley)
     
