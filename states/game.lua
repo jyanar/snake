@@ -1,23 +1,26 @@
 local game = {}
 
+-- Local objects
+local snake = {}
+local grid = {}
+local dirbuffer = {}
+local egg = {}
+local time = {}
+
 function game:init()
 end
 
 
 function game:enter(previous)
     if previous == States.start then
-        grid = {
-            width = gw / 10,
-            height = gh / 10
-        }
+        -- Generate game objects
+        grid = { width = 20, height = 20 }
         snake = {
-            x = 10,
-            y = 10,
             gridx = 10,
             gridy = 10,
             alive = true,
             currdir = 'down',
-            speed = 0.08,
+            dt = 0.08,
             tail = {[1] = {gridx = 10, gridy = 9},
                     [2] = {gridx = 10, gridy = 8},
                     [3] = {gridx = 10, gridy = 7}}
@@ -28,7 +31,6 @@ function game:enter(previous)
             gridy = love.math.random(1, grid.height - 1)
         }
         time = love.timer.getTime()
-        love.mouse.setVisible(false)
     end
 end
 
@@ -36,7 +38,7 @@ end
 function game:update(dt)
     if snake.alive then
         -- Update snake position, if requisite time has passed
-        if (love.timer.getTime() - time) > snake.speed then
+        if (love.timer.getTime() - time) > snake.dt then
             time = love.timer.getTime()
             -- Check whether user has provided input
             if dirbuffer[1] == '' then
@@ -72,40 +74,45 @@ function game:update(dt)
                     egg.gridy = love.math.random(1, grid.height - 1)
                 end
                 -- Snake moves faster now
-                snake.speed = snake.speed - 0.001
+                snake.dt = snake.dt - 0.001
                 -- Add another tail segment
                 local lastsegment = snake.tail[#snake.tail]
-                snake.tail[#snake.tail + 1] = {gridx = lastsegment.gridx, gridy = lastsegment.gridy}
+                snake.tail[#snake.tail + 1] = {gridx = lastsegment.gridx,
+                                               gridy = lastsegment.gridy}
                 -- Play sound
                 Sounds.egg:play()
             end
         end
     else
-        State.switch(States.deathscreen)
+        State.switch(States.deathscreen, #snake.tail)
     end
 end
 
 
 function game:draw()
-    -- Let's make the grid have points every 10 pixels. To do this,
-    -- we round down to the nearest factor of 10
     if ispaused then
         love.graphics.printf('Press esc or p to continue', 0, 100, 400, 'center')
-        love.graphics.setColor(1, 1, 1)
-        love.graphics.rectangle('fill', snake.gridx * 10, snake.gridy * 10, 10, 10)
-        for isegment, segment in ipairs(snake.tail) do
-            love.graphics.rectangle('fill', segment.gridx * 10, segment.gridy * 10, 10, 10)
-        end
-        love.graphics.setColor(1, 0, 0)
-        love.graphics.rectangle('fill', egg.gridx * 10, egg.gridy * 10, 10, 10)
     else
-        love.graphics.setColor(1, 1, 1)
-        love.graphics.rectangle('fill', snake.gridx * 10, snake.gridy * 10, 10, 10)
-        for isegment, segment in ipairs(snake.tail) do
-            love.graphics.rectangle('fill', segment.gridx * 10, segment.gridy * 10, 10, 10)
+        -- Draw grid
+        blocksize = WINDOW_SIZE / grid.width
+        love.graphics.setColor(1,1,1, 0.1)
+        for i = 1, grid.width do
+            for j = 1, grid.width do
+                love.graphics.rectangle('fill', (i * blocksize), (j * blocksize), 2, 2)
+            end
         end
+        -- Draw snake
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.rectangle('fill', (snake.gridx * blocksize), (snake.gridy * blocksize),
+                                        blocksize, blocksize)
+        for isegment, segment in ipairs(snake.tail) do
+            love.graphics.rectangle('fill', (segment.gridx * blocksize), (segment.gridy * blocksize),
+                                            blocksize, blocksize)
+        end
+        -- Draw egg
         love.graphics.setColor(1, 0, 0)
-        love.graphics.rectangle('fill', egg.gridx * 10, egg.gridy * 10, 10, 10)
+        love.graphics.rectangle('fill', egg.gridx * blocksize, egg.gridy * blocksize,
+                                        blocksize, blocksize)
     end
 end
 
@@ -172,4 +179,6 @@ function is_occupied(snake, obj)
     return false
 end
 
+
 return game
+

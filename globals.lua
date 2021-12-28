@@ -12,6 +12,13 @@ Fonts = {
     size24 = love.graphics.newFont("assets/m5x7.ttf", 24),
     size32 = love.graphics.newFont("assets/m5x7.ttf", 32),
     size64 = love.graphics.newFont("assets/m5x7.ttf", 64),
+    size128 = love.graphics.newFont("assets/m5x7.ttf", 128),
+}
+
+-- Art
+Art = {
+    head  = love.graphics.newImage("assets/head.bmp"),
+    apple = love.graphics.newImage("assets/apple.png"),
 }
 
 -- Sounds

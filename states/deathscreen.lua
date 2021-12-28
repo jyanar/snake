@@ -1,10 +1,12 @@
 local deathscreen = {}
 
+local score = 0
+
 local textbox = {
     x = gw / 8,
     y = 4 * (gh / 6),
     width = gw * 0.75,
-    height = 32 + 8,
+    height = 64 + 8,
     text = '',
     active = true,
     colors = {
@@ -22,7 +24,10 @@ function love.textinput(text)
     end
 end
 
-function deathscreen:enter(previous)
+function deathscreen:enter(previous, ntailsegments)
+    if previous == States.game then
+        score = ntailsegments
+    end
 end
 
 function deathscreen:update(dt)
@@ -30,30 +35,30 @@ end
 
 function deathscreen:draw()
     -- Title
-    local titlew = Fonts.size32:getWidth('dead')
-    local titleh = Fonts.size32:getHeight('dead')
+    local titlew = Fonts.size64:getWidth('dead')
+    local titleh = Fonts.size64:getHeight('dead')
     local titlex = (gw * 0.5) - (titlew * 0.5)
     local titley = 20
     love.graphics.setColor(1, 1, 1)
-    love.graphics.print('dead', Fonts.size32, titlex, titley)
+    love.graphics.print('dead', Fonts.size64, titlex, titley)
 
     -- Score
-    str = 'tail length: ' .. tostring(#snake.tail)
-    local titlew = Fonts.size32:getWidth(str)
-    local titleh = Fonts.size32:getHeight(str)
+    str = 'tail length: ' .. tostring(score)
+    local titlew = Fonts.size64:getWidth(str)
+    local titleh = Fonts.size64:getHeight(str)
     local titlex = (gw * 0.5) - (titlew * 0.5)
     local titley = 50
     love.graphics.setColor(1, 1, 1)
-    love.graphics.print(str, Fonts.size32, titlex, titley)
+    love.graphics.print(str, Fonts.size64, titlex, titley)
     
     -- Name
     score_str = 'name'
-    local titlew = Fonts.size32:getWidth(score_str)
-    local titleh = Fonts.size32:getHeight(score_str)
+    local titlew = Fonts.size64:getWidth(score_str)
+    local titleh = Fonts.size64:getHeight(score_str)
     local titlex = (gw * 0.5) - (titlew * 0.5)
     local titley = 3 * (gh / 6)
     love.graphics.setColor(1, 1, 1)
-    love.graphics.print(score_str, Fonts.size32, titlex, titley)
+    love.graphics.print(score_str, Fonts.size64, titlex, titley)
 
     -- Textbox rectangle
     love.graphics.setColor(1, 1, 1)
@@ -62,9 +67,10 @@ function deathscreen:draw()
     love.graphics.setColor(unpack(textbox.colors.background))
     love.graphics.rectangle('fill', textbox.x, textbox.y,
         textbox.width, textbox.height)
+
     -- Text box
     love.graphics.setColor(unpack(textbox.colors.text))
-    love.graphics.printf(textbox.text, Fonts.size32, textbox.x, textbox.y+4,
+    love.graphics.printf(textbox.text, Fonts.size64, textbox.x, textbox.y+4,
         textbox.width, 'center')
 end
 
@@ -79,7 +85,7 @@ function deathscreen:keypressed(key)
             local existing_data = love.filesystem.load('scores.lua')
             existing_data() -- table `data` loaded
         end
-        table.insert(data, {score = #snake.tail, name = textbox.text})
+        table.insert(data, {score = score, name = textbox.text})
         love.filesystem.write('scores.lua', table.show(data, 'data'))
         State.switch(States.leaderboard)
     end

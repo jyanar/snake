@@ -40,15 +40,14 @@ function start:draw()
     local ww = gw
     local wh = gh
     -- Draw title
-    local titleW = Fonts.size64:getWidth('SNAKE')
-    local titleH = Fonts.size64:getHeight('SNAKE')
-    love.graphics.print('SNAKE', Fonts.size64,
+    local titleW = Fonts.size128:getWidth('SNAKE')
+    local titleH = Fonts.size128:getHeight('SNAKE')
+    love.graphics.print('SNAKE', Fonts.size128,
         (ww * 0.5) - titleW * 0.5, wh / 10)
     local button_width = ww / 2
     local button_height = wh / 5.4
-    -- local button_height = wh / 6.2
     local margin = 4
-    local cursor_y = 25
+    local cursor_y = 50
     local total_height = (button_height + margin) * #buttons
     for i, button in ipairs(buttons) do
         local bx = (ww * 0.5) - (button_width * 0.5)
@@ -69,10 +68,10 @@ function start:draw()
             button_height
         )
         -- Text on buttons
-        local textW = Fonts.size32:getWidth(button.text)
-        local textH = Fonts.size32:getHeight(button.text)
+        local textW = Fonts.size64:getWidth(button.text)
+        local textH = Fonts.size64:getHeight(button.text)
         love.graphics.setColor(1, 1, 1)
-        love.graphics.print(button.text, Fonts.size32,
+        love.graphics.print(button.text, Fonts.size64,
             (ww * 0.5) - textW * 0.5,
             by + textH * 0.4)
         cursor_y = cursor_y + (button_height + margin)

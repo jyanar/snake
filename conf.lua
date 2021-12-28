@@ -1,18 +1,9 @@
--- gw = 480
--- gw = 270
+-- Window size [pixels]
+-- WINDOW_SIZE = 270
+WINDOW_SIZE = 270 * 2
 
--- With background
-gw = 330
-gh = 330
-
--- Only arena
-gw = 270
-gh = 270
--- gw = 1080
--- gh = 900
-sx = 1
-sy = 1
-
+gw = WINDOW_SIZE
+gh = WINDOW_SIZE
 
 function love.conf(t)
     t.identity = nil                    -- The name of the save directory (string)
