@@ -81,6 +81,7 @@ function deathscreen:keypressed(key)
 
     if key == 'return' then
         textbox.active = false
+        local data = {}
         if love.filesystem.getInfo('scores.lua') ~= nil then
             local existing_data = love.filesystem.load('scores.lua')
             existing_data() -- table `data` loaded

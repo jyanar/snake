@@ -44,7 +44,7 @@ function start:draw()
     local titleH = Fonts.size128:getHeight('SNAKE')
     love.graphics.print('SNAKE', Fonts.size128,
         (ww * 0.5) - titleW * 0.5, wh / 10)
-    local button_width = ww / 2
+    local button_width = ww / 1.5
     local button_height = wh / 5.4
     local margin = 4
     local cursor_y = 50
@@ -54,7 +54,7 @@ function start:draw()
         local by = (wh * 0.5) - (total_height * 0.5) + cursor_y
         local color = {0.4, 0.4, 0.5, 1.0}
         if i == active_button then
-            color = {0.8, 0.8, 0.9, 1.0}
+            color = {1, 1, 1, 1.0}
             if not button.sound_played then
                 love.audio.stop()
                 Sounds.button:play()
@@ -62,7 +62,7 @@ function start:draw()
             end
         end
         love.graphics.setColor(unpack(color))
-        love.graphics.rectangle('fill', 
+        love.graphics.rectangle('line', 
             bx, by,
             button_width,
             button_height

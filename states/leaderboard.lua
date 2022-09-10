@@ -1,5 +1,5 @@
-local leaderboard = {}
 
+local leaderboard = {}
 local scoredata = {}
 
 function leaderboard:init()
@@ -53,7 +53,7 @@ function leaderboard:draw()
     local entry_h = 16
     local margin = 4
     for i, s in ipairs(scoredata) do
-        if i <= 10 then -- Print out first 10
+        if i <= 20 then
             love.graphics.print(s.name, Fonts.size32, cursor_x, cursor_y)
             love.graphics.print(s.score, Fonts.size32, cursor_x + space_h, cursor_y)
             cursor_y = cursor_y + margin + entry_h

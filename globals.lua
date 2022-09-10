@@ -5,6 +5,7 @@ Flux   = require "libs.flux"
 Show   = require "libs.show"
 State  = require "libs.state"
 Timer  = require "libs.timer"
+Inspect = require "libs.inspect"
 
 -- Fonts
 Fonts = {
@@ -15,10 +16,12 @@ Fonts = {
     size128 = love.graphics.newFont("assets/m5x7.ttf", 128),
 }
 
+love.graphics.setDefaultFilter("nearest", "nearest")
 -- Art
 Art = {
     head  = love.graphics.newImage("assets/head.bmp"),
     apple = love.graphics.newImage("assets/apple.png"),
+    human = love.graphics.newImage("assets/human.png"),
 }
 
 -- Sounds
